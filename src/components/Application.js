@@ -1,8 +1,58 @@
 // import React from "react";
 import DayList from "components/DayList";
-import { Appointment } from "components/Appointment";
+import Appointment from "components/Appointment";
 import React, { useState } from "react";
 import "components/Application.scss";
+
+
+
+
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "2pm",
+    interview: {
+      student: "Luke Oloffs",
+      interviewer: {
+        id: 2,
+        name: "Tori Malcolm",
+        avatar: "https://i.imgur.com/Nmx0Qxo.png",
+      }
+    }
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Joe Smith",
+      interviewer: {
+        id: 3,
+        name: "Mildred Nazir",
+        avatar: "https://i.imgur.com/T2WwVfS.png",
+      }
+    }
+  },
+  {
+    id: 5,
+    time: "4pm",
+  },
+];
 
 
 const days = [
@@ -24,8 +74,19 @@ const days = [
 ];
 
 export default function Application(props) {
-
+  
   const [day, setDay] = useState("Monday");
+
+  const appointmentArr = appointments.map(appointment => {
+    return (
+    <Appointment 
+      key={appointment.id} {...appointment}
+      time={appointment.time} 
+      student={appointment.interview} 
+      interviewer={appointment.interviewer}
+    />
+    )
+  })
 
   return (
     <main className="layout">
@@ -46,7 +107,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        <Appointment />
+        {appointmentArr}
+       <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
