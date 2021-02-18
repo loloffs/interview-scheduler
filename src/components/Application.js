@@ -3,58 +3,59 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { getAppointmentsForDay } from "helpers/selectors";
 
 import "components/Application.scss";
 
 
 
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Luke Oloffs",
-      interviewer: {
-        id: 2,
-        name: "Tori Malcolm",
-        avatar: "https://i.imgur.com/Nmx0Qxo.png",
-      }
-    }
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Joe Smith",
-      interviewer: {
-        id: 3,
-        name: "Mildred Nazir",
-        avatar: "https://i.imgur.com/T2WwVfS.png",
-      }
-    }
-  },
-  {
-    id: 5,
-    time: "4pm",
-  },
-];
+// const appointments = [
+//   {
+//     id: 1,
+//     time: "12pm",
+//   },
+//   {
+//     id: 2,
+//     time: "1pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       }
+//     }
+//   },
+//   {
+//     id: 3,
+//     time: "2pm",
+//     interview: {
+//       student: "Luke Oloffs",
+//       interviewer: {
+//         id: 2,
+//         name: "Tori Malcolm",
+//         avatar: "https://i.imgur.com/Nmx0Qxo.png",
+//       }
+//     }
+//   },
+//   {
+//     id: 4,
+//     time: "3pm",
+//     interview: {
+//       student: "Joe Smith",
+//       interviewer: {
+//         id: 3,
+//         name: "Mildred Nazir",
+//         avatar: "https://i.imgur.com/T2WwVfS.png",
+//       }
+//     }
+//   },
+//   {
+//     id: 5,
+//     time: "4pm",
+//   },
+// ];
 
 
 // const days = [
@@ -76,18 +77,32 @@ const appointments = [
 // ];
 
 export default function Application(props) {
-  const [days, setDays] = useState([]);
-  const [day, setDay] = useState("Monday");
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
+
+  let dailyAppointments = [];
+  const setDay = day => setState({ ...state, day });
+  // const setDays = (days) => setState(prev => ({ ...prev, days }));
+  dailyAppointments = getAppointmentsForDay(state, state.day);
 
   useEffect(() => {
-    axios.get("/api/days").then(response => {
-      console.log(response);
-      setDays(response.data)
-    });
+      Promise.all([
+        axios.get('api/days'),
+        axios.get('api/appointments'),
+        axios.get('api/interviewers')
+      ]).then((all) => {
+        console.log("ALL: ", all);
+        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
+
+        const [days, appointments, interviewers] = all;
+        // set your states here with the correct values...
+      })
   }, [])
 
-
-  const appointmentArr = appointments.map(appointment => {
+  const appointmentArr = dailyAppointments.map(appointment => {
     return (
     <Appointment 
       key={appointment.id} {...appointment}
@@ -108,7 +123,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} selectedDay={day} setDay={setDay} />
+          <DayList days={state.days} selectedDay={state.day} setDay={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
