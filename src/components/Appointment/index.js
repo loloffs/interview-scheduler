@@ -6,45 +6,71 @@ import Show from "components/Appointment/Show.js";
 import Form from "components/Appointment/Form.js";
 import useVisualMode from "../../hooks/useVisualMode";
 import { getInterviewersForDay } from "helpers/selectors"
+import Status from './Status';
+import Confirm from './Confirm';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
-
-
-
+const SAVING = "SAVE";
+const CONFIRM = "CONFIRM";
+const DELETING = "DELETE";
 
 
 export default function Appointment(props) {
- 
-  console.log("PROPS: ", props.interviewers);
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
+  function save(name, interviewer) {
+
+    const interview = {
+      student: name,
+      interviewer
+    };
+
+    
+    transition(SAVING);
+    props.bookInterview(props.id, interview)
+    .then(() => transition(SHOW));
+  
+  }
+
+  
+  function deletAppointment(interview) {
+
+    transition(DELETING);
+    props.cancelInterview(props.id)
+      .then(() => transition(EMPTY));
+
+  }
+console.log("MODE: ", mode);
+
   return (
     <div>
       <Header time={props.time}/>
 
-
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === DELETING && <Status message="Deleting..." />}
+      {mode === CONFIRM && 
+      <Confirm
+        message="Are you sure!?" 
+        onCancel={back} 
+        onConfirm={deletAppointment} 
+        />}
+      {mode === SAVING && <Status message="Saving" />}
       {mode === SHOW && (
-     <Show
+     <Show      
         student={props.interview.student}
         interviewer={props.interview.interviewer}
-      />
-        )}    
-
-        {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back(EMPTY)}/>}
-  
+        onDelete={() => transition(CONFIRM)}
+      />)}    
+      {mode === CREATE && <Form interviewers={props.interviewers} onDelete={deletAppointment} onSave={save} onCancel={() => back(EMPTY)}/>}
     </div>
-  )
-    
+  )    
 }
 
-
-/* {props.interview ? <Show onDelete={() => console.log("Delete")} onEdit={() => console.log("Edit")} student={props.interview.student} interviewer={props.interview.interviewer}/> : <Empty onAdd={() => null}/>} */
 
 
 
