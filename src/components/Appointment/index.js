@@ -4,6 +4,7 @@ import Header from "components/Appointment/Header.js";
 import Empty from "components/Appointment/Empty.js";
 import Show from "components/Appointment/Show.js";
 import Form from "components/Appointment/Form.js";
+import Error from "components/Appointment/Error.js";
 import useVisualMode from "../../hooks/useVisualMode";
 import { getInterviewersForDay } from "helpers/selectors"
 import Status from './Status';
@@ -16,7 +17,8 @@ const SAVING = "SAVE";
 const CONFIRM = "CONFIRM";
 const DELETING = "DELETE";
 const EDIT = "EDIT";
-
+const ERROR_SAVE = "ERROR_SAVE"; 
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
 
@@ -24,54 +26,63 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
 
+  function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
+  
+    transition(SAVING);
+  
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
+  }
+
+  // function save(name, interviewer) {
+
+  //   const interview = {
+  //     student: name,
+  //     interviewer
+  //   };
 
     
-    transition(SAVING);
-    props.bookInterview(props.id, interview)
-    .then(() => transition(SHOW));
+  //   transition(SAVING);
+  //   props.bookInterview(props.id, interview)
+  //     .then(() => transition(SHOW))
+  //     .catch(() => transition(ERROR_SAVE));
+  // }
   
+  function deletAppointment(event) {
+
+    transition(DELETING, true);
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
-  function editAppointment(interview) {
-
-    transition(EDIT);
-    props.bookInterview(props.id, interview)
-      .then(() => transition(SHOW));
-
-  }
 
 
-  
-  function deletAppointment(interview) {
-
-    transition(DELETING);
-    props.cancelInterview(props.id)
-      .then(() => transition(EMPTY));
-
-  }
 // console.log("PROPS INDEX: ", Object.keys(props));
-console.log("PROPS INDEX: ", props.interview);
+console.log("PROPS INDEX: ", props);
 
 
   return (
     <div>
       <Header time={props.time}/>
-
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === DELETING && <Status message="Deleting..." />}
+      {mode === ERROR_SAVE && <Error message="ERRORR SAVING" onCancel={() => transition(SHOW)} />} {/* Error catch */}
+      {mode === ERROR_DELETE && <Error message="ERROR DELETING" onCancel={() => transition(SHOW)} />}  {/* Error catch */}
       {mode === EDIT && // EDIT form 
       <Form 
         interviewers={props.interviewers} 
         onDelete={deletAppointment} 
-        name={props.interview.student} // this puts proper name as placeholder when you click edit button but it doesnt allow you to edit the name and save it...
-        interviewer={props.interview.interviewer.id} // how to have interviewer already selected when you click edit button?
-        // selected={props.selectedInterviewer}
+        name={props.interview.student} // student name placeholder
+        interviewer={props.interview.interviewer.id} // interviewer placeholder
         onSave={save} 
         onCancel={() => back(SHOW)}/>}
       {mode === CONFIRM && 
