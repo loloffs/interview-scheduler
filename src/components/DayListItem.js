@@ -9,6 +9,10 @@ export default function DayListItem(props) {
     "day-list__item--full": props.spots === 0
   })
 
+
+  // console.log("PROPS.SPOTS: ", props.spots);
+
+
   const formatSpots = function() {
     if (props.spots === 0) {
       return "no spots remaining";
@@ -16,7 +20,7 @@ export default function DayListItem(props) {
     if (props.spots === 1) {
       return "1 spot remaining";
     }
-    return props.spots + " spots remaining";
+    return props.spots + " spots remaining"; // spots stored here. value should change when appt. created or deleted
   };
 
   return (

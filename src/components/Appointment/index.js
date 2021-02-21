@@ -41,19 +41,6 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_SAVE, true));
   }
 
-  // function save(name, interviewer) {
-
-  //   const interview = {
-  //     student: name,
-  //     interviewer
-  //   };
-
-    
-  //   transition(SAVING);
-  //   props.bookInterview(props.id, interview)
-  //     .then(() => transition(SHOW))
-  //     .catch(() => transition(ERROR_SAVE));
-  // }
   
   function deletAppointment(event) {
 
@@ -64,10 +51,6 @@ export default function Appointment(props) {
       .catch(() => transition(ERROR_DELETE, true));
   }
 
-
-
-// console.log("PROPS INDEX: ", Object.keys(props));
-console.log("PROPS INDEX: ", props);
 
 
   return (
@@ -103,10 +86,3 @@ console.log("PROPS INDEX: ", props);
     </div>
   )    
 }
-
-
-
-
-
-
-
