@@ -12,7 +12,7 @@ export default function Error(props) {
         className="appointment__error-close"
         src="images/close.png"
         alt="Close"
-        onClick={props.onCancel} // Is this right?
+        onClick={props.onCancel}
       />
     </main>
   )

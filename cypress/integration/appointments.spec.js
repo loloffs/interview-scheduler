@@ -2,9 +2,7 @@ describe("Navigation", () => {
 
   beforeEach(() => {
     cy.request("GET", "/api/debug/reset");
-  
     cy.visit("/");
-  
     cy.contains("Monday");
    });
 
@@ -29,9 +27,7 @@ describe("Navigation", () => {
   
     cy.get("[data-testid=student-name-input]").clear().type("Lydia Miller-Jones");
     cy.get("[alt='Tori Malcolm']").click();
-  
     cy.contains("Save").click();
-  
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Tori Malcolm");
   });

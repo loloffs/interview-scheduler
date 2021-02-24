@@ -54,8 +54,6 @@ const fixtures = {
 };
 
 
-
-
 export default {
   defaults: { baseURL: "" },
   get: jest.fn(url => {
