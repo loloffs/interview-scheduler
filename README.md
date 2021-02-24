@@ -11,16 +11,16 @@ The Interview Scheduler app allows the user to book, cancel, edit, and delete ap
 ## Screenshots
  
  ### Main Screen
-!["Screenshot of tweeter main"](https://github.com/loloffs/Virtual-Bookshelf/blob/master/public/images/Main%20page.png?raw=true)
+!["Screenshot of tweeter main"](https://github.com/loloffs/interview-scheduler/blob/master/public/images/MainScreen.png?raw=true)
 
-### Listings
-!["Screenshot of tweeter main"](https://github.com/loloffs/Virtual-Bookshelf/blob/master/public/images/Listings.png?raw=true)
+### Create new appointment
+!["Screenshot of tweeter main"](https://github.com/loloffs/interview-scheduler/blob/master/public/images/CreateNewInterview.png?raw=true)
 
-### Create new listing
-!["Screenshot of tweeter main"](https://github.com/loloffs/Virtual-Bookshelf/blob/master/public/images/create%20listing.png?raw=true)
+### Delete appointment
+!["Screenshot of tweeter main"](https://github.com/loloffs/interview-scheduler/blob/master/public/images/DeleteAppt.png?raw=true)
 
-### Mark as SOLD
-!["Screenshot of tweeter main"](https://github.com/loloffs/Virtual-Bookshelf/blob/master/public/images/sold.png?raw=true)
+### Hover over appointment
+!["Screenshot of tweeter main"](https://github.com/loloffs/interview-scheduler/blob/master/public/images/InterviewHover.png?raw=true)
 
 
 
