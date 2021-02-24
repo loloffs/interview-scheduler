@@ -19,10 +19,6 @@ const {
   cancelInterview
 } = useApplicationData();
 
-console.log("STATE: ", state.days[0]);
-
-
-
   let dailyAppointments = [];
   dailyAppointments = getAppointmentsForDay(state, state.day);
   let interviewersForDay = [];

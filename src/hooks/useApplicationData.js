@@ -21,7 +21,6 @@ export default function useApplicationData() {
       axios.get('/api/appointments'),
       axios.get('/api/interviewers')
     ]).then((all) => {
-      console.log("ALL", all);
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
       const [days, appointments, interviewers] = all;
     })
@@ -68,10 +67,10 @@ export default function useApplicationData() {
         x.spots -= 1
      }
     });
-
-    const url = `/api/appointments/${id}`;
+    const apptID = appointment.id;
+    const url = `/api/appointments/${apptID}`;
     return axios.put(url, appointment)
-    .then(() => setState({...state, appointments}));
+    .then((res) => setState({...state, appointments}));
   }
 
   const setDay = day => setState({ ...state, day });
