@@ -5,13 +5,13 @@ import {
   waitForElement, 
   fireEvent, 
   getByText, 
-  prettyDOM,
+  mockRejectedValueOnce,
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
   queryByText,
   queryByAltText,
-  mockRejectedValueOnce
+  prettyDOM
 } from "@testing-library/react";
 import Application from "components/Application";
 import axios from "axios";
@@ -150,9 +150,7 @@ describe("Application", () => {
 
 
   it("shows the delete error when failing to delete an existing appointment", async () => {
-  
     axios.delete.mockRejectedValueOnce(new Error ("ERROR DELETING"));
-
     const { container } = render(<Application />);
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
@@ -161,15 +159,12 @@ describe("Application", () => {
     );
 
     fireEvent.click(queryByAltText(appointment, "Delete"));
-  
     expect(
       getByText(appointment, "Are you sure you want to delete?")
     ).toBeInTheDocument();
   
     fireEvent.click(queryByText(appointment, "Confirm"));
-
     expect(getByText(appointment, "Deleting...")).toBeInTheDocument();
-
     await waitForElement(() => getByText(appointment, "ERROR DELETING"));
     
   });
