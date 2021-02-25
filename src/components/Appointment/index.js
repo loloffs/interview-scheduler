@@ -28,10 +28,16 @@ export default function Appointment(props) {
 
 
   function save(name, interviewer) {
+
+    if(!interviewer){
+      alert("Please select an interviewer");
+    } else {
+    
     const interview = {
       student: name,
       interviewer
     };
+
   
     transition(SAVING);
   
@@ -40,6 +46,7 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true));
   }
+}
 
   
   function deleteAppointment(event) {
