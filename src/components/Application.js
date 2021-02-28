@@ -61,7 +61,7 @@ const {
       </section>
       <section className="schedule">
         {appointmentArr}
-       <Appointment key="last" time="5pm" />
+       <Appointment id="last" time="5pm" />
       </section>
     </main>
   );

@@ -33,20 +33,20 @@ export default function Appointment(props) {
       alert("Please select an interviewer");
     } else {
     
-    const interview = {
-      student: name,
-      interviewer
-    };
+      const interview = {
+        student: name,
+        interviewer
+      };
 
-  
-    transition(SAVING);
-  
-    props
-      .bookInterview(props.id, interview)
-      .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));
+    
+      transition(SAVING);
+    
+      props
+        .bookInterview(props.id, interview)
+        .then(() => transition(SHOW))
+        .catch(error => transition(ERROR_SAVE, true));
+    }
   }
-}
 
   
   function deleteAppointment(event) {
@@ -63,10 +63,11 @@ export default function Appointment(props) {
   return (
     <div data-testid="appointment" >
       <Header time={props.time}/>
+      {props.id !== "last" && <>  
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === DELETING && <Status message="Deleting..." />}
-      {mode === ERROR_SAVE && <Error message="ERROR SAVING" onCancel={() => transition(SHOW)} />} {/* Error catch */}
-      {mode === ERROR_DELETE && <Error message="ERROR DELETING" onCancel={() => transition(SHOW)} />}  {/* Error catch */}
+      {mode === ERROR_SAVE && <Error message="ERROR SAVING" onCancel={back} />} {/* Error catch */}
+      {mode === ERROR_DELETE && <Error message="ERROR DELETING" onCancel={back} />}  {/* Error catch */}
       {mode === EDIT && // EDIT form 
       <Form 
         interviewers={props.interviewers} 
@@ -90,6 +91,7 @@ export default function Appointment(props) {
         onEdit={() => transition(EDIT)} // transition to "edit" form
       />)}    
       {mode === CREATE && <Form interviewers={props.interviewers} onDelete={deleteAppointment} onSave={save} onCancel={() => back(EMPTY)}/>}
+        </>}
     </div>
   )    
 }

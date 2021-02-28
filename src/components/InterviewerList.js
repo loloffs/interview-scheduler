@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 function InterviewerList(props) {
 
+  console.log("HERE", props.interviewers)
+
   const interviewers = props.interviewers.map(interviewer => {
     return (
       <InterviewerListItem
