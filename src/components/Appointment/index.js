@@ -28,7 +28,6 @@ export default function Appointment(props) {
 
 
   function save(name, interviewer) {
-
     if(!interviewer){
       alert("Please select an interviewer");
     } else {
@@ -38,13 +37,12 @@ export default function Appointment(props) {
         interviewer
       };
 
-    
       transition(SAVING);
     
-      props
-        .bookInterview(props.id, interview)
-        .then(() => transition(SHOW))
-        .catch(error => transition(ERROR_SAVE, true));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
     }
   }
 

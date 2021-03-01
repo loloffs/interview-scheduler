@@ -21,9 +21,7 @@ export default function useApplicationData() {
     })
   }, [])
 
-
   const updateSpots = (appointments) => {
-    console.log("APPT: ", appointments);
     const dayObj = state.days.find((item) => item.name === state.day);
     const copyDayObj = {...dayObj}; // Created copyDayObj to not alter state directly
     const appointmentIds = copyDayObj.appointments;
@@ -45,8 +43,6 @@ export default function useApplicationData() {
 
     return newDays;
   };
-
-
 
   const cancelInterview = function(id, interview) {
     const appointment = {
@@ -70,8 +66,6 @@ export default function useApplicationData() {
     })
   }
 
-
-
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
@@ -88,8 +82,6 @@ export default function useApplicationData() {
     });
   };
 
-
-
   const setDay = day => setState({ ...state, day });
 
   const obj = {
@@ -98,7 +90,5 @@ export default function useApplicationData() {
   bookInterview,
   setDay
   }
-
   return obj;
-
 }
