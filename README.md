@@ -29,6 +29,8 @@ The Interview Scheduler app allows the user to book, cancel, edit, and delete ap
 
 Install dependencies with `npm install`.
 
+API server: https://github.com/lighthouse-labs/scheduler-api
+
 ## Running Webpack Development Server
 
 ```sh
